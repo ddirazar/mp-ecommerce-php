@@ -71,6 +71,11 @@ $payer->address->zip_code = '1111';
 $payer->address->street_name = 'False';
 $payer->address->street_number = '123';
 
+$preference->payer=array("name"=>'Lalo Landa',
+                        "email"=>'test_user_39701617@testuser.com',
+                        "identification"=>["type"=>'DNI',
+                                           "number"=>'22.333.444'] );
+
 $preference->payment_methods = array(
         "excluded_payment_methods" => array(
             array(
