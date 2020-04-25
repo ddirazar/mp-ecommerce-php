@@ -38,14 +38,14 @@ if($parametros) {
         case "payment":
             $rta = CallAPI("https://api.mercadopago.com/v1/payments/".$parametros["id"],MP_ACCESS_TOKEN
             );
-            if( !($rta["httpCode"] >= 200 && $rta["httpCode"]<=201) ){."
+            if( !($rta["httpCode"] >= 200 && $rta["httpCode"]<=201) ){
                 file_put_contents("php://stderr", "Hook Payment Error \n");
                 echo "Hook Payment Error ";
 
                 file_put_contents("php://stderr", "payment rta:".$rta["httpCode"]."\n");
                 echo "payment rta:".$rta["httpCode"];
 
-                file_put_contents("php://stderr", "payment:".json_encode($rta["response"] ."\n");
+                file_put_contents("php://stderr", "payment:".json_encode($rta["response"]) ."\n");
                 echo "payment:".json_encode($rta["response"]);
                 http_response_code(300);        
                 exit;
