@@ -42,9 +42,17 @@
 <?php
 // SDK de Mercado Pago
 require __DIR__ .  '/vendor/autoload.php';
+include_once(__DIR__ ."/access_token.php");
 
 // Agrega credenciales
-MercadoPago\SDK::setAccessToken('TEST-2477735489428313-022113-5cda916ca4122ad884a1b27e2119a711-5215113');
+MercadoPago\SDK::setAccessToken( MP_ACCESS_TOKEN );
+
+
+/*
+
+1{"id":554792204,"nickname":"TESTVIW8DEAN","password":"qatest8799","site_status":"active","email":"test_user_3050571@testuser.com"}
+
+*/
 
 // Crea un objeto de preferencia
 $preference = new MercadoPago\Preference();
@@ -62,19 +70,11 @@ $item->currency_id = 'ARS';
 
 $payer = new MercadoPago\Payer();
 $payer->name ='Lalo Landa';
-$payer->identification->type ='DNI';
-$payer->identification->number = '22.333.444';
-$payer->email = 'test_user_39701617@testuser.com';
-$payer->phone->area_code = '011';
-$payer->phone->number = '2222-3333';
-$payer->address->zip_code = '1111';
-$payer->address->street_name = 'False';
-$payer->address->street_number = '123';
+$payer->identification = (object)array("type" =>'DNI',"number" => '22.333.444');
+$payer->email = 'test_user_3050571@testuser.com';
+$payer->phone = (object)array( "area_code" => '011' , "number" => '2222-3333');
+$payer->address = (object)array("zip_code" => '1111',"street_name" => 'False',"street_number" => '123');
 
-$preference->payer=array("name"=>'Lalo Landa',
-                        "email"=>'test_user_39701617@testuser.com',
-                        "identification"=>["type"=>'DNI',
-                                           "number"=>'22.333.444'] );
 
 $preference->payment_methods = array(
         "excluded_payment_methods" => array(
@@ -92,8 +92,11 @@ $preference->payment_methods = array(
         "default_installments" => null,
     );
 $preference->items = array($item);
-//$preference->payer = $payer;
+$preference->payer = $payer;
 $preference->save();
+
+
+file_put_contents("php://stderr", "preferencias:".print_r($preference,true)."\n");
 ?>
 
 <body class="as-theme-light-heroimage">
