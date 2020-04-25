@@ -87,7 +87,7 @@ $preference->payment_methods = array(
         "default_installments" => null,
     );
 $preference->items = array($item);
-$preference->payer = $payer;
+//$preference->payer = $payer;
 $preference->save();
 ?>
 
