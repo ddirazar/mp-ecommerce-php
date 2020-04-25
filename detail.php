@@ -71,7 +71,7 @@ $item->currency_id = 'ARS';
 $payer = new MercadoPago\Payer();
 $payer->name ='Lalo Landa';
 $payer->identification = (object)array("type" =>'DNI',"number" => '22.333.444');
-$payer->email = 'test_user_3050571@testuser.com';
+//$payer->email = 'test_user_3050571@testuser.com';
 $payer->phone = (object)array( "area_code" => '011' , "number" => '2222-3333');
 $payer->address = (object)array("zip_code" => '1111',"street_name" => 'False',"street_number" => '123');
 
@@ -96,7 +96,7 @@ $preference->payer = $payer;
 $preference->save();
 
 
-file_put_contents("php://stderr", "preferencias:".print_r($preference,true)."\n");
+file_put_contents("php://stderr", "preferencias:".json_encode($preference)."\n");
 ?>
 
 <body class="as-theme-light-heroimage">
