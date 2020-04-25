@@ -51,13 +51,43 @@ $preference = new MercadoPago\Preference();
 
 // Crea un ítem en la preferencia
 $item = new MercadoPago\Item();
+$item->id = 1234;
 $item->title = $_POST['title'];
+$item->description = 'Dispositivo móvil de Tienda e-commerce';
 $item->quantity = $_POST['unit'];
 $item->unit_price = $_POST['price'];
 $item->picture_url = $_POST['img'];
 $item->currency_id = 'ARS';
 
+
+$payer = new MercadoPago\Payer();
+$payer->name ='Lalo Landa';
+$payer->identification->type ='DNI';
+$payer->identification->number = '22.333.444';
+$payer->email = 'test_user_39701617@testuser.com';
+$payer->phone->area_code = '011';
+$payer->phone->number = '2222-3333';
+$payer->address->zip_code = '1111';
+$payer->address->street_name = 'False';
+$payer->address->street_number = '123';
+
+$preference->payment_methods = array(
+        "excluded_payment_methods" => array(
+            array(
+                "id" => "amex",
+            )
+        ),
+        "excluded_payment_types" => array(
+            array(
+                "id" => "atm"
+            )
+        ),
+        "installments" => 6,
+        "default_payment_method_id" => null,
+        "default_installments" => null,
+    );
 $preference->items = array($item);
+$preference->payer = $payer;
 $preference->save();
 ?>
 
@@ -150,13 +180,11 @@ $preference->save();
                                             <?php echo $_POST['unit'] ?>
                                         </h3>
                                     </div>
-                                    <!--button type="submit" class="mercadopago-button" formmethod="post">Pagar</button-->
                                     <form action="/procesar-pago" method="POST">
                                         <script
                                             src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
                                             data-preference-id="<?php echo $preference->id; ?>">
                                         </script>
-                                        <button type="submit" class="mercadopago-button"        formmethod="post">Pagar</button>
                                     </form>
                                 </div>
                             </div>
