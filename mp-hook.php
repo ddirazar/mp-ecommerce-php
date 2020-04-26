@@ -47,14 +47,9 @@ if($parametros) {
 
                 file_put_contents("php://stderr", "payment:".json_encode($rta["response"]) ."\n");
                 echo "payment:".json_encode($rta["response"]);
-                http_response_code(300);        
-                exit;
             }
             break;
     }
-    http_response_code(201);
 }
-else{
-  http_response_code(300);  
-}
+http_response_code(200);
 ?>
