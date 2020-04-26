@@ -38,7 +38,7 @@ if($stream)
 if(isset($parametros["type"])) {
     switch( $parametros["type"] ) {
         case "payment":
-            $rta = CallAPI("https://api.mercadopago.com/v1/payments/".$parametros["id"],MP_ACCESS_TOKEN
+            $rta = CallAPI("https://api.mercadopago.com/v1/payments/".$parametros["data"]["id"],MP_ACCESS_TOKEN
             );
             if( !($rta["httpCode"] >= 200 && $rta["httpCode"]<=201) ){
                 file_put_contents("php://stderr", "Hook Payment Error \n");
