@@ -64,18 +64,16 @@ $item->title = $_POST['title'];
 $item->description = 'Dispositivo móvil de Tienda e-commerce';
 $item->quantity = $_POST['unit'];
 $item->unit_price = $_POST['price'];
-$item->picture_url = $_POST['img'];
+$item->picture_url = $_SERVER['HTTP_ORIGIN']."/".$_POST['img'];
 $item->currency_id = 'ARS';
 
 
 $payer = new MercadoPago\Payer();
 $payer->name ='Lalo Landa';
 $payer->identification = (object)array("type" =>'DNI',"number" => '22.333.444');
-$payer->email = 'test_user_3050571@testuser.com';
+$payer->email = 'ddirazar@intervan.com.ar';
 $payer->phone = (object)array( "area_code" => '011' , "number" => '2222-3333');
 $payer->address = (object)array("zip_code" => '1111',"street_name" => 'False',"street_number" => '123');
-$preference->save();
-file_put_contents("php://stderr", "preferencias:".json_encode($payer)."\n");
 
 $preference->payment_methods = array(
         "excluded_payment_methods" => array(
@@ -99,7 +97,6 @@ $preference->save();
 
 file_put_contents("php://stderr", "preferencias:".json_encode($preference)."\n");
 ?>
-
 <body class="as-theme-light-heroimage">
 
     <div class="stack">
@@ -187,6 +184,8 @@ file_put_contents("php://stderr", "preferencias:".json_encode($preference)."\n")
                                         </h3>
                                         <h3 >
                                             <?php echo $_POST['unit'] ?>
+                                        <h3 >
+                                            url(<?php echo $_SERVER['HTTP_ORIGIN']."/".$_POST['img'] ?>)
                                         </h3>
                                     </div>
                                     <form action="/procesar-pago" method="POST">
