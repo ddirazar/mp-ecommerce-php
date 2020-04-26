@@ -97,6 +97,8 @@ $url_success = $_SERVER['HTTP_ORIGIN']."/success.php";
 $url_pending = $_SERVER['HTTP_ORIGIN']."/pending.php";
 $url_failure = $_SERVER['HTTP_ORIGIN']."/failure.php";
 
+file_put_contents("php://stderr", "URLS:$url_success $url_pending $url_failure\n");
+
 $preference->auto_return='all';
 
 $preference->back_urls=(object)array("success"=> $url_success , 
@@ -104,7 +106,6 @@ $preference->back_urls=(object)array("success"=> $url_success ,
                                      "failure"=>$url_failure);
 
 $preference->notification_url = $_SERVER['HTTP_ORIGIN']."/mp-hook.php";
-
 
 $preference->save();
 
