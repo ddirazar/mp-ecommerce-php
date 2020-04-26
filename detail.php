@@ -43,11 +43,9 @@
 // SDK de Mercado Pago
 require __DIR__ .  '/vendor/autoload.php';
 include_once(__DIR__ ."/access_token.php");
-include_once(__DIR__ ."/call_api.php");
 
 // Agrega credenciales
 MercadoPago\SDK::setAccessToken( MP_ACCESS_TOKEN );
-
 
 // Crea un objeto de preferencia
 $preference = new MercadoPago\Preference();
@@ -64,9 +62,10 @@ $item->currency_id = 'ARS';
 
 
 $payer = new MercadoPago\Payer();
-$payer->name ='Lalo Landa';
+$payer->name ="Lalo Landa";
 $payer->identification = (object)array("type" =>'DNI',"number" => '22333444');
-$payer->email = 'ddirazar@intervan.com.ar';
+$payer->email ='ddirazar@intervan.com.ar';
+//$payer->email ="test_user_63274575@testuser.com"; //'ddirazar@intervan.com.ar';
 $payer->phone = (object)array( "area_code" => '011' , "number" => '2222-3333');
 $payer->address = (object)array("zip_code" => '1111',"street_name" => 'False',"street_number" => '123');
 
