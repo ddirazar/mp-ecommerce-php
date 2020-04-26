@@ -96,13 +96,17 @@ $preference->payer = $payer;
 $url_success = $_SERVER['HTTP_ORIGIN']."/sucess.php";
 $url_pending = $_SERVER['HTTP_ORIGIN']."/pending.php";
 $url_failure = $_SERVER['HTTP_ORIGIN']."/failure.php";
-$preference->back_urls=(object)array("success"=> $url_success , "pending"=>$url_pending , "failure"=>$url_failure);
+$preference->back_urls=(object)array("success"=> $url_success , 
+                                     "pending"=>$url_pending , 
+                                     "failure"=>$url_failure);
 
 $preference->notification_url = $_SERVER['HTTP_ORIGIN']."/mp-hook.php";
+
+
 $preference->save();
 
 
-file_put_contents("php://stderr", "preferencias:".json_encode($preference)."\n");
+file_put_contents("php://stderr", "preferencias:".json_encode((array)$preference)."\n");
 ?>
 <body class="as-theme-light-heroimage">
 
@@ -191,6 +195,10 @@ file_put_contents("php://stderr", "preferencias:".json_encode($preference)."\n")
                                         </h3>
                                         <h3 >
                                             <?php echo $_POST['unit'] ?>
+                                        </h3>
+                                        <h2>
+                                             <?php echo $url_success." ".$url_pending." ".$url_failure ?>
+                                        </h2>
                                     </div>
                                     <form action="/procesar-pago" method="POST">
                                         <script
