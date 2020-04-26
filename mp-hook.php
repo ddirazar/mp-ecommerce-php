@@ -30,10 +30,12 @@ function CallAPI($api_url, $access_token  ){
 $parametros=null;
 $stream = file_get_contents('php://input');
 
+file_put_contents("php://stderr", "$stream\n");
+
 if($stream)
     $parametros=json_decode($stream,true);
 
-if(isset($parametros["type"] )) {
+if(isset($parametros["type"])) {
     switch( $parametros["type"] ) {
         case "payment":
             $rta = CallAPI("https://api.mercadopago.com/v1/payments/".$parametros["id"],MP_ACCESS_TOKEN

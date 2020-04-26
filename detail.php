@@ -105,7 +105,9 @@ $preference->back_urls=array("success"=> $url_success ,
 $preference->redirect_urls=array("success"=> $url_success , 
                                      "pending"=>$url_pending , 
                                      "failure"=>$url_failure);
-$preference->notification_url = $_SERVER['HTTP_ORIGIN']."/mp-hook.php";
+
+$preference->notification_url = "https://ddirazar-mp-commerce-php.herokuapp.com/mp-hook.php";
+//$preference->notification_url = $_SERVER['HTTP_ORIGIN']."/mp-hook.php";
 
 $preference->save();
 
