@@ -200,9 +200,6 @@ file_put_contents("php://stderr", "preferencias:".print_r($preference,true)."\n"
                                         <h3 >
                                             <?php echo $_POST['unit'] ?>
                                         </h3>
-                                        <h2>
-                                             <?php echo $url_success." ".$url_pending." ".$url_failure ?>
-                                        </h2>
                                     </div>
                                     <form action="/procesar-pago" method="POST">
                                         <script

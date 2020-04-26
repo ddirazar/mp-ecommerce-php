@@ -50,7 +50,7 @@ if($parametros) {
             }else{
                 echo "Pago Procesado";
                 echo "payment:".json_encode($rta["response"]);
-                file_put_contents("php://stderr", "payment:".json_encode($rta["response"]."\n")             
+                file_put_contents("php://stderr", "payment:".json_encode($rta["response"]."\n"));             
             }
             break;
     }
