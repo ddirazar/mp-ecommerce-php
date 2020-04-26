@@ -1,45 +1,28 @@
  <?php
-
-
 require __DIR__ .  '/vendor/autoload.php';
 include_once(__DIR__ ."/access_token.php");
+include_once(__DIR__ ."/call_api.php");
 
-
-function CallAPI($api_url, $access_token  ){
-
-    $url_servicio = $api_url."?access_token=$access_token";
-
-    $curl = curl_init($url_servicio);
-
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
-    $hdr_options=['Content-Type: application/json'];
-    curl_setopt($curl, CURLOPT_HTTPHEADER, $hdr_options);
-    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
-
-    $response = curl_exec($curl);
-    $res_data = json_decode(str_replace("\": null" , "\": \"\"",$response),true);
-    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-    curl_close($curl);
-    return array("httpCode"=>$httpCode , "response"=>$res_data);
-  }
-
-
-
-
+//
+// TODO: Debería tomar la novedad y retornar rápidamente para evitar timeout.
+//
 $parametros=null;
-$stream = file_get_contents('php://input');
+switch($_SERVER['REQUEST_METHOD'])
+{
+    case 'GET': $parametros = $_GET; break;
+    case 'POST': $parametros = $_POST; break;
+}
 
-file_put_contents("php://stderr", "$stream\n");
-
-if($stream)
-    $parametros=json_decode($stream,true);
-
+//
+// Procesar las novedades de tipo Payment
+//
 if(isset($parametros["type"])) {
     switch( $parametros["type"] ) {
         case "payment":
-            $rta = CallAPI("https://api.mercadopago.com/v1/payments/".$parametros["data"]["id"],MP_ACCESS_TOKEN
-            );
+            //
+            // NO DEBERÍA REALIZAR UN LLAMADO, DEBERÍA ENCOLAR LA NOVEDAD Y RETORNAR RÁPIDAMETE CON UN HTML STATUS 200.
+            //
+            $rta = CallAPI(MP_API_URL,"GET","/v1/payments/".$parametros["data"]["id"]."?access_token=".MP_ACCESS_TOKEN, null);
             if( !($rta["httpCode"] >= 200 && $rta["httpCode"]<=201) ){
                 file_put_contents("php://stderr", "Hook Payment Error \n");
                 echo "Hook Payment Error ";
@@ -57,5 +40,8 @@ if(isset($parametros["type"])) {
             break;
     }
 }
+//
+// Retornar 200
+//
 http_response_code(200);
 ?>

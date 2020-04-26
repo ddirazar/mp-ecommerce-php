@@ -43,16 +43,11 @@
 // SDK de Mercado Pago
 require __DIR__ .  '/vendor/autoload.php';
 include_once(__DIR__ ."/access_token.php");
+include_once(__DIR__ ."/call_api.php");
 
 // Agrega credenciales
 MercadoPago\SDK::setAccessToken( MP_ACCESS_TOKEN );
 
-
-/*
-
-1{"id":554792204,"nickname":"TESTVIW8DEAN","password":"qatest8799","site_status":"active","email":"test_user_3050571@testuser.com"}
-
-*/
 
 // Crea un objeto de preferencia
 $preference = new MercadoPago\Preference();
@@ -100,17 +95,18 @@ $url_failure = $_SERVER['HTTP_ORIGIN']."/failure.php";
 $preference->auto_return='approved';
 
 $preference->back_urls=array("success"=> $url_success , 
-                                     "pending"=>$url_pending , 
-                                     "failure"=>$url_failure);
+                             "pending"=>$url_pending , 
+                             "failure"=>$url_failure);
+
+$preference->external_reference=hash("md5",$_POST['title']);
 
 $preference->notification_url = "https://ddirazar-mp-commerce-php.herokuapp.com/mp-hook.php";
 //$preference->notification_url = $_SERVER['HTTP_ORIGIN']."/mp-hook.php";
 
 $preference->save();
 
-
-file_put_contents("php://stderr", "preferencias:".print_r($preference,true)."\n");
 ?>
+
 <body class="as-theme-light-heroimage">
     <div class="stack">        
         <div class="as-search-wrapper" role="main">
@@ -175,11 +171,7 @@ file_put_contents("php://stderr", "preferencias:".print_r($preference,true)."\n"
 
                                             
                                         </div>
-
-                                        
-
                                     </div>
-
                                 </div>
                                 <div class="as-producttile-info" style="float:left;min-height: 168px;">
                                     <div class="as-producttile-titlepricewraper" style="min-height: 128px;">
@@ -198,6 +190,7 @@ file_put_contents("php://stderr", "preferencias:".print_r($preference,true)."\n"
                                             <?php echo "Cantidad:  ".$_POST['unit'] ?>
                                         </h3>
                                     </div>
+
                                     <form action="/procesar_pago.php" method="POST">
                                         <script
                                             src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
