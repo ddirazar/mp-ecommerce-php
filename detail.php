@@ -93,9 +93,12 @@ $preference->payment_methods = array(
 $preference->items = array($item);
 $preference->payer = $payer;
 
-$url_success = $_SERVER['HTTP_ORIGIN']."/sucess.php";
+$url_success = $_SERVER['HTTP_ORIGIN']."/success.php";
 $url_pending = $_SERVER['HTTP_ORIGIN']."/pending.php";
 $url_failure = $_SERVER['HTTP_ORIGIN']."/failure.php";
+
+$preference->auto_return='all';
+
 $preference->back_urls=(object)array("success"=> $url_success , 
                                      "pending"=>$url_pending , 
                                      "failure"=>$url_failure);

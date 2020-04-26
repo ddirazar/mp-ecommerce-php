@@ -75,7 +75,7 @@
 
                                     <button class="as-filter-button" aria-expanded="true" aria-controls="as-search-filters" type="button">
                                         <h2 class=" as-filter-button-text">
-                                            El pago está pendiente, le informaremos por mail el resultado de la operación
+                                            Se produjo in error en el pago
                                         </h2>
                                     </button>
                                 </div>
@@ -86,7 +86,9 @@
                 </div>
             </div>
         </div>
-        <div role="alert" class="as-loader-text ally" aria-live="assertive"></div>
+        <div role="alert" class="as-loader-text ally" aria-live="assertive">
+                Se produjo in error en el pago
+        </div>
         <div class="as-footnotes">
             <div class="as-footnotes-content">
                 <div class="as-footnotes-sosumi">

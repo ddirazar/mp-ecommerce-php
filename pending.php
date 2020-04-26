@@ -75,7 +75,7 @@
 
                                     <button class="as-filter-button" aria-expanded="true" aria-controls="as-search-filters" type="button">
                                         <h2 class=" as-filter-button-text">
-                                            El pago está pendiente, le informaremos por mail el resultado de la operación
+                                            El pago está pendiente de confirmación
                                         </h2>
                                     </button>
                                 </div>
