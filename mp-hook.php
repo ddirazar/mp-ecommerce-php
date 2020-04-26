@@ -7,11 +7,12 @@ include_once(__DIR__ ."/call_api.php");
 // TODO: Debería tomar la novedad y retornar rápidamente para evitar timeout.
 //
 $parametros=null;
-switch($_SERVER['REQUEST_METHOD'])
-{
-    case 'GET': $parametros = $_GET; break;
-    case 'POST': $parametros = $_POST; break;
-}
+$stream = file_get_contents('php://input');
+
+file_put_contents("php://stderr", "$stream\n");
+
+if($stream)
+    $parametros=json_decode($stream,true);
 
 //
 // Procesar las novedades de tipo Payment
