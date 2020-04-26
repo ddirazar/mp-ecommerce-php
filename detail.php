@@ -102,7 +102,9 @@ $preference->auto_return='all';
 $preference->back_urls=array("success"=> $url_success , 
                                      "pending"=>$url_pending , 
                                      "failure"=>$url_failure);
-
+$preference->redirect_urls=array("success"=> $url_success , 
+                                     "pending"=>$url_pending , 
+                                     "failure"=>$url_failure);
 $preference->notification_url = $_SERVER['HTTP_ORIGIN']."/mp-hook.php";
 
 $preference->save();
