@@ -33,8 +33,8 @@ $stream = file_get_contents('php://input');
 if($stream)
     $parametros=json_decode($stream,true);
 
-if($parametros) {
-    switch($parametros["type"]) {
+if(isset($parametros["type"] )) {
+    switch( $parametros["type"] ) {
         case "payment":
             $rta = CallAPI("https://api.mercadopago.com/v1/payments/".$parametros["id"],MP_ACCESS_TOKEN
             );
