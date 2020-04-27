@@ -45,7 +45,7 @@ require __DIR__ .  '/vendor/autoload.php';
 include_once(__DIR__ ."/access_token.php");
 
 // Agrega credenciales
-MercadoPago\SDK::setAccessToken( MP_ACCESS_TOKEN );
+MercadoPago\SDK::setAccessToken( "TEST-4651074872023842-042702-fcdaebc8bdad1f4587d8a339306d11d5-469485398" );
 
 // Crea un objeto de preferencia
 $preference = new MercadoPago\Preference();
@@ -99,8 +99,8 @@ $preference->back_urls=array("success"=> $url_success ,
 
 $preference->external_reference=hash("md5",$_POST['title']);
 
-$preference->notification_url = "https://ddirazar-mp-commerce-php.herokuapp.com/mp-hook.php";
-//$preference->notification_url = $_SERVER['HTTP_ORIGIN']."/mp-hook.php";
+//$preference->notification_url = "https://ddirazar-mp-commerce-php.herokuapp.com/mp-hook.php";
+$preference->notification_url = $_SERVER['HTTP_ORIGIN']."/mp-hook.php";
 
 $preference->save();
 
