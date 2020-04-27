@@ -193,6 +193,7 @@ $preference->save();
                                     <form action="/procesar_pago.php" method="POST">
                                         <script
                                             src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
+                                            data-button-label="Pagar la compra"
                                             data-preference-id="<?php echo $preference->id; ?>">
                                         </script>
                                     </form>
