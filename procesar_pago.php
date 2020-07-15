@@ -12,5 +12,5 @@ if(isset($parametros["back_url"])) {
     echo $parametros["back_url"];
     header("Location: ".$parametros["back_url"]);      
 }else
-        header("Location: /index.html");
+        header("Location: /index.php");
 ?>                                        

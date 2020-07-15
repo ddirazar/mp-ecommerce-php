@@ -2,6 +2,7 @@
     "name": "mp-ecommerce-php",
     "type": "project",
     "require": {
-        "mercadopago/dx-php": "^2.0"
+        "mercadopago/dx-php": "^2.0",
+        "pagos360/sdk-php": "^1.0"
     }
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="supports-animation supports-columns svg no-touch no-ie no-oldie no-ios supports-backdrop-filter as-mouseuser" lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
-    <meta name="viewport" content="width=1024">
+    <meta name="viewport" content="width=1024"/>
     <title>Tienda e-commerce</title>
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -44,69 +44,62 @@
 require __DIR__ .  '/vendor/autoload.php';
 include_once(__DIR__ ."/access_token.php");
 
-// Agrega credenciales
-MercadoPago\SDK::setAccessToken( MP_ACCESS_TOKEN );
 
-// Crea un objeto de preferencia
-$preference = new MercadoPago\Preference();
+$sdk = new \Pagos360\Sdk(getenv('API_KEY_360'));
 
-// Crea un ítem en la preferencia
-$item = new MercadoPago\Item();
-$item->id = 1234;
-$item->title = $_POST['title'];
-$item->description = 'Dispositivo móvil de Tienda e-commerce';
-$item->quantity = $_POST['unit'];
-$item->unit_price = $_POST['price'];
-$item->picture_url = $_SERVER['HTTP_ORIGIN']."/".$_POST['img'];
-$item->currency_id = 'ARS';
+$paymentRequest = new \Pagos360\Models\PaymentRequest();
+$paymentRequest
+    ->setFirstTotal($_POST['price'])
+    ->setFirstDueDate(new DateTimeImmutable('tomorrow'))
+    ->setDescription($_POST['title'])
+    ->setPayerEmail('intervan98@gmail.com')
+    ->setPayerName('Jose Oficina Virtual')
+    ->setBackUrlSuccess ('http://localhost/success.php')
+    ->setBackUrlRejected ('http://localhost/failure.php')
+    ->setBackUrlPending ('http://localhost/pending.php')
+;
 
+$paymentRequest = $sdk->paymentRequests->create($paymentRequest);
 
-$payer = new MercadoPago\Payer();
-$payer->name ="Lalo Landa";
-$payer->identification = (object)array("type" =>'DNI',"number" => '22333444');
-$payer->email ='ddirazar@intervan.com.ar';
-//$payer->email ="test_user_63274575@testuser.com"; //'ddirazar@intervan.com.ar';
-$payer->phone = (object)array( "area_code" => '011' , "number" => '2222-3333');
-$payer->address = (object)array("zip_code" => '1111',"street_name" => 'False',"street_number" => '123');
+file_put_contents("php://stderr", "respuesta:".print_r($response,true)."\n");
 
-$preference->payment_methods = array(
-        "excluded_payment_methods" => array(
-            array(
-                "id" => "amex",
-            )
-        ),
-        "excluded_payment_types" => array(
-            array(
-                "id" => "atm"
-            )
-        ),
-        "installments" => 6,
-        "default_payment_method_id" => null,
-        "default_installments" => null,
-    );
-$preference->items = array($item);
-$preference->payer = $payer;
+/* 
+$body='{"payment_request":{"description":"'.$_POST['title'].'", "first_due_date":"31-07-2020","first_total":24.00,"payer_name":"nombre del pagador"}}';
 
-$url_success = $_SERVER['HTTP_ORIGIN']."/success.php";
-$url_pending = $_SERVER['HTTP_ORIGIN']."/pending.php";
-$url_failure = $_SERVER['HTTP_ORIGIN']."/failure.php";
+print($body);
 
-$preference->auto_return='approved';
+$client = new GuzzleHttp\Client();
+$response = $client->request('POST', 'https://api.pagos360.com/payment-request', [
+    'headers'=>['content-type' => 'application/json',
+    'authorization' => 'Bearer ZWVhMGUzYTQwMDE2YTEwNTNlYWRmY2JlYmI2ZDRhNTBjM2M0YTVlN2Y3OTdjMTc1MDk3MWNiYTBhMmVjNjU2Zg
+'],
+    'body'=>$body   
+]);
 
-$preference->back_urls=array("success"=> $url_success , 
-                             "pending"=>$url_pending , 
-                             "failure"=>$url_failure);
+$response = $client->getResponse();
 
-$preference->external_reference=hash("md5",$_POST['title']);
-
-//$preference->notification_url = "https://ddirazar-mp-commerce-php.herokuapp.com/mp-hook.php";
-$preference->notification_url = $_SERVER['HTTP_ORIGIN']."/mp-hook.php";
-
-$preference->save();
-
+file_put_contents("php://stderr", "respuesta:".print_r($response,true)."\n");
+*/
 ?>
 
 <body class="as-theme-light-heroimage">
+<script type="text/javascript">
+        (function () {
+            function load() {
+                window.isLoaded !== true && (function () {
+                    var s = document.createElement("script");
+                    s.type = "text/javascript";
+                    s.async = true;
+                    s.src = document.location.protocol + "render.min.js";
+                    var x = document.getElementsByTagName('script')[0];
+                    x.parentNode.insertBefore(s, x);
+                    window.isLoaded = true;
+                })();
+            }
+            window.isLoaded !== true ? (window.attachEvent ? window.attachEvent('onload', load) : window.addEventListener('load', load, false)) : null;
+        })();
+</script>
+
     <div class="stack">        
         <div class="as-search-wrapper" role="main">
             <div class="as-navtuck-wrapper">
@@ -190,13 +183,7 @@ $preference->save();
                                         </h3>
                                     </div>
 
-                                    <form action="/procesar_pago.php" method="POST">
-                                        <script
-                                            src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
-                                            data-button-label="Pagar la compra"
-                                            data-preference-id="<?php echo $preference->id; ?>">
-                                        </script>
-                                    </form>
+                                    <a class="boton_pagar" href="<?php echo $paymentRequest->getCheckoutUrl()?>" id="pagos360-pay-button">PAGAR</a>
                                 </div>
                             </div>
                         </div>
